@@ -1,0 +1,75 @@
+<div class="test">
+  <div class="test-form">
+    <h1>{{title}}</h1>
+    <form class="user-form" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+      <label for="first-name">Имя: </label>
+      <input class="inp" id="first-name" type="text" formControlName="firstName" autocomplete="off" placeholder="имя" ngModel required>
+
+      <label for="last-name">Фамилия: </label>
+      <input class="inp" id="last-name" type="text" formControlName="lastName" autocomplete="off" placeholder="фамилия">
+
+      <div class="date">
+        <mat-form-field class="date-content" appearance="fill">
+          <label for="">День рождения: </label>
+          <input #startDate matInput formControlName="dateOfBirth" [matDatepicker]="myDatePicker">
+          <mat-datepicker-toggle matSuffix [for]="myDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker panelClass="datepickerCalendar" class="calenadar" #myDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <label for="emailControl">Електронная почта</label>
+      <input class="inp" id="emailControl" formControlName="emailControl" autocomplete="off" placeholder="почта">
+      <mat-error class="errmail" *ngIf="emailControl.errors?.['emailExists']">
+        Такой имейл уже сущесвтует
+      </mat-error>
+
+      <label for="framework">Фреймворк</label>
+      <mat-form-field appearance="fill">
+        <select formControlName="framework" matNativeControl>
+          <option *ngFor="let framework of Framworks" [ngValue]="framework">{{framework.name}}</option>
+        </select>
+      </mat-form-field>
+
+      <label for="frameworkVersion">Версия</label>
+      <mat-form-field appearance="fill">
+        <select [attr.disabled]="profileForm.get('framework')?.value ? null : 'disabled'" formControlName="frameworkVersion" matNativeControl>
+          <option *ngFor="let item of profileForm.get('framework')?.value.versions">{{item.version}}</option>
+        </select>
+      </mat-form-field>
+
+      <h2>Хобби</h2>
+      <ng-container formArrayName="hobby">
+
+        <button class="addHobby" (click)="addSkill()" type="button">+ Добавить Хобби</button>
+
+        <div *ngFor="let myhobby of hobby.controls; index as i">
+          <ng-container [formGroupName]="i">
+            <label for="name">Названия Хобби</label>
+            <input class="inp-field inp" id="name" formControlName="name" autocomplete="off" placeholder="хобби"/>
+            <br> <br>
+            <label for="name">Продолжительность</label>
+            <input class="inp-field inp" formControlName="duration" autocomplete="off" placeholder="продолжительность"/>
+          </ng-container>
+        </div>
+
+      </ng-container>
+
+      <button class="btn" type="submit" name="button" [disabled]="!profileForm.valid">Отправить</button>
+    </form>
+  </div>
+</div>
+
+<!-- [disabled]="!profileForm.valid" -->
+
+
+<!-- <div class="container">
+  <mat-form-field appearance="fill">
+    <mat-label>Email addressw</mat-label>
+    <mat-error *ngIf="emailControl.errors?.['email']">
+      Please enter a valid email address
+    </mat-error>
+    <mat-progress-spinner *ngIf="emailControl.pending" matSuffix [mode]="'indeterminate'" [diameter]="20">
+    </mat-progress-spinner>
+  </mat-form-field>
+</div> -->

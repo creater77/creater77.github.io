@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0
+}
+
+.cdk-overlay-connected-position-bounding-box {
+  width: 20%;
+  height: 20%;
+}
